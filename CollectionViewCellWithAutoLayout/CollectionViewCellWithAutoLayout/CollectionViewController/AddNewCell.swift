@@ -35,10 +35,10 @@ class AddNewCell: UICollectionViewCell {
     private var imageLayoutConstraint : NSLayoutConstraint? = nil
     
     private var cellType: AddCellType = .Vertical
-    private let containerBackgroundColor: UIColor = UIColor.clearColor()
-    private let titleBackgroundColorVertical: UIColor = UIColor.clearColor()
-    private let titleBackgroundColorHorizontal: UIColor = UIColor.grayColor()
-    private let highlightColor: UIColor = UIColor.darkGrayColor()
+    private let containerBackgroundColor = UIColor.clearColor()
+    private let titleBackgroundColorVertical = UIColor.clearColor()
+    private let titleBackgroundColorHorizontal = UIColor.grayColor()
+    private let highlightColor = UIColor.darkGrayColor()
     
     // --------------------------------------------------------------------------------
     // MARK: -

@@ -86,7 +86,7 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
     private func getCollectionViewWidth() -> CGFloat {
         let orientation = UIApplication.sharedApplication().statusBarOrientation
         if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
-            return self.view.frame.size.width
+            return view.frame.size.width
         } else {
             return orientation.isPortrait ? 414 : 736
         }
@@ -95,7 +95,7 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
     private func getCollectionViewHeight() -> CGFloat {
         let orientation = UIApplication.sharedApplication().statusBarOrientation
         if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
-            return self.view.frame.size.height
+            return view.frame.size.height
         } else {
             return orientation.isPortrait ? 736 : 414
         }
@@ -105,7 +105,7 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
         if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
             return CGRectMake(0, 0, getCollectionViewWidth(), getCollectionViewHeight())
         } else {
-            return CGRectMake(self.view.frame.size.width / 2 - getCollectionViewWidth() / 2, 0, getCollectionViewWidth(), getCollectionViewHeight())
+            return CGRectMake(view.frame.size.width / 2 - getCollectionViewWidth() / 2, 0, getCollectionViewWidth(), getCollectionViewHeight())
         }
     }
     
@@ -158,21 +158,24 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
         
         model.populate()
         
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: leftRightInset(), bottom: bottomInset(), right: leftRightInset())
         layout.minimumInteritemSpacing = leftRightInset()
         layout.minimumLineSpacing = bottomInset()
         
         collectionView = UICollectionView(frame: getCollectionViewFrame(), collectionViewLayout: layout)
-        collectionView!.dataSource = self
-        collectionView!.delegate = self
-        collectionView!.registerClass(AddNewCell.self, forCellWithReuseIdentifier: "CellVertical")
-        collectionView!.registerClass(AddNewCell.self, forCellWithReuseIdentifier: "CellHorizontal")
-        collectionView!.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView")
-        collectionView!.backgroundColor = UIColor.lightGrayColor()
-        self.view.backgroundColor = UIColor.lightGrayColor()
-        self.view.addSubview(collectionView!)
-        self.edgesForExtendedLayout = .None
+        if let collection = collectionView {
+            collection.dataSource = self
+            collection.delegate = self
+            collection.registerClass(AddNewCell.self, forCellWithReuseIdentifier: "CellVertical")
+            collection.registerClass(AddNewCell.self, forCellWithReuseIdentifier: "CellHorizontal")
+            collection.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView")
+            collection.backgroundColor = UIColor.lightGrayColor()
+            view.addSubview(collection)
+        }
+        
+        view.backgroundColor = UIColor.lightGrayColor()
+        edgesForExtendedLayout = .None
     }
     
     // --------------------------------------------------------------------------------
@@ -187,7 +190,7 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let identifier = isHorizontalCell(indexPath) ? "CellHorizontal" : "CellVertical"
-        if let cell: AddNewCell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as? AddNewCell {
+        if let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as? AddNewCell {
             
             cell.hidden = isHiddenCell(indexPath)
             let insets = (verticalCellWidth() - cell.imageSize) / 2
@@ -206,7 +209,7 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
             return cell
         }
         
-        assert(false, "The dequeued cell was of an unknown type!")
+        assert(false, "The dequeued cell was of an unknown type")
         return UICollectionViewCell()
         
     }
@@ -218,14 +221,14 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         if (kind == UICollectionElementKindSectionHeader) {
-            if let reusableview: UICollectionReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as? UICollectionReusableView {
+            if let reusableview = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as? UICollectionReusableView {
                 if (reusableview.subviews.count > 0) {
-                    if let view: UIView = reusableview.subviews[0] as? UIView {
+                    if let view = reusableview.subviews[0] as? UIView {
                         view.removeFromSuperview()
                     }
                 }
                 
-                let sectionLabel: UILabel = UILabel(frame: CGRectMake(0, 0, collectionView.frame.size.width, headerHeight()))
+                let sectionLabel = UILabel(frame: CGRectMake(0, 0, collectionView.frame.size.width, headerHeight()))
                 sectionLabel.text = NSLocalizedString("Title for Section Header", comment: "")
                 sectionLabel.backgroundColor = UIColor.clearColor()
                 sectionLabel.textAlignment = .Center
@@ -235,7 +238,7 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
             }
         }
         
-        assert(false, "The view was of an unknown kind!")
+        assert(false, "The view was of an unknown kind")
         return UICollectionReusableView()
         
     }
