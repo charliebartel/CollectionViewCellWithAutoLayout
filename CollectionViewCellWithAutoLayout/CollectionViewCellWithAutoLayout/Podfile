@@ -1,6 +1,6 @@
 target 'CollectionViewCellWithAutoLayout' do
 
-pod 'PureLayout', '~> 2.0'
+pod 'PureLayout'
 
 end
 

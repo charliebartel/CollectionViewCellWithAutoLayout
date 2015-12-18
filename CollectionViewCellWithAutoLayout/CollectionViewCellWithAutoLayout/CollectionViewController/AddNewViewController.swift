@@ -221,11 +221,11 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         if (kind == UICollectionElementKindSectionHeader) {
-            if let reusableview = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath) as? UICollectionReusableView {
+            
+            let reusableview = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderView", forIndexPath: indexPath)
+            
                 if (reusableview.subviews.count > 0) {
-                    if let view = reusableview.subviews[0] as? UIView {
-                        view.removeFromSuperview()
-                    }
+                    reusableview.subviews[0].removeFromSuperview()
                 }
                 
                 let sectionLabel = UILabel(frame: CGRectMake(0, 0, collectionView.frame.size.width, headerHeight()))
@@ -235,7 +235,7 @@ class AddNewViewController: UIViewController, UICollectionViewDelegateFlowLayout
                 sectionLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
                 reusableview.addSubview(sectionLabel)
                 return reusableview
-            }
+            
         }
         
         assert(false, "The view was of an unknown kind")

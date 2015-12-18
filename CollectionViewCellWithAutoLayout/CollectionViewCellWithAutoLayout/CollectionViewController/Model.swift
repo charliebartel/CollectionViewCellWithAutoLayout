@@ -13,10 +13,8 @@ class Model
         
     func populate()
     {
-        for familyName in UIFont.familyNames() {
-            if let familyNameString = familyName as? String {
-                dataArray.append((title: familyNameString, body: randomLoremIpsum()))
-            }
+        for familyNameString in UIFont.familyNames() {
+            dataArray.append((title: familyNameString, body: randomLoremIpsum()))
         }
     }
     
@@ -24,10 +22,7 @@ class Model
     {
         let fontFamilies = UIFont.familyNames()
         let r = random() % fontFamilies.count
-    
-        if let familyNameString = fontFamilies[r] as? String {
-            dataArray.append((title: familyNameString, body: randomLoremIpsum()))
-        }
+        dataArray.append((title: fontFamilies[r], body: randomLoremIpsum()))
     }
     
     func randomLoremIpsum() -> String
